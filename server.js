@@ -1,15 +1,18 @@
-//var webpack = require('webpack');
+var webpack = require('webpack');
 //var WebpackDevServer = require('webpack-dev-server');
 var fs = require('fs');
 var path = require('path');
-//var config = require('./webpack.config');
-
-
+var config = require('./webpack.config');
 
 var express = require('express');
 var http = require('http');
 var morgan = require('morgan');
 
+var webpackDevMiddleware = require('webpack-dev-middleware');
+var webpackHotMiddleware = require('webpack-hot-middleware');
+
+
+var compiler = webpack(config);
 
 //new WebpackDevServer(webpack(config), {
 //  publicPath: config.output.publicPath,
@@ -26,7 +29,6 @@ var morgan = require('morgan');
 
 let app = express();
 let server = http.createServer(app);
-
 app.use(morgan('dev'));
 
 app.get('/', function(req, res) {
@@ -34,6 +36,18 @@ app.get('/', function(req, res) {
        res.end(data);
    });
 });
-app.use('/static', express.static(path.resolve(__dirname, './dist')));
+
+
+//app.use('/static', express.static(path.resolve(__dirname, './dist')));
+app.use(webpackDevMiddleware(compiler, {
+    noInfo: false,
+    quiet: false,
+    stats: {
+        colors: true
+    },
+    publicPath: config.output.publicPath,
+    serverSideRender: false
+}));
+app.use(webpackHotMiddleware(compiler));
 
 server.listen(3000);
