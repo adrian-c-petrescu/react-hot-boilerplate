@@ -4,6 +4,7 @@
   "description": "Boilerplate for ReactJS project with hot code reloading",
   "scripts": {
     "start": "node server.js",
+    "build": "webpack --config ./webpack.config.js",
     "lint": "eslint src"
   },
   "repository": {
@@ -38,9 +39,12 @@
     "eslint-plugin-react": "^3.6.2",
     "react-hot-loader": "^3.0.0-beta.1",
     "webpack": "^1.12.2",
-    "webpack-dev-server": "^1.12.1"
+    "webpack-dev-middleware": "^1.8.4",
+    "webpack-dev-server": "^1.12.1",
+    "webpack-hot-middleware": "^2.13.0"
   },
   "dependencies": {
+    "morgan": "^1.7.0",
     "react": "^15.0.1",
     "react-dom": "^15.0.1"
   }
